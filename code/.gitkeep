@@ -1,0 +1,373 @@
+1. Script for Average Prices per night for each Room type in European Cities
+  SELECT city, ROUND(AVG(realSum), 2) AS average_room_price, room_type
+       CASE WHEN weekday = 1 THEN 'Weekday' ELSE 'Weekend' END AS day_type
+FROM (
+    SELECT 'Amsterdam' AS city, realSum, room_type, 1 AS weekday
+    FROM airbnb.amsterdam_weekdays
+    UNION ALL
+    SELECT 'Amsterdam' AS city, realSum, room_type, 0 AS weekday
+    FROM airbnb.amsterdam_weekends
+    UNION ALL
+    SELECT 'Berlin' AS city, realSum, room_type, 1 AS weekday
+    FROM airbnb.berlin_weekdays
+    UNION ALL
+    SELECT 'Berlin' AS city, realSum, room_type, 0 AS weekday
+    FROM airbnb.berlin_weekends
+    UNION ALL
+    SELECT 'Lisbon' AS city, realSum, room_type, 1 AS weekday
+    FROM airbnb.lisbon_weekdays
+    UNION ALL
+    SELECT 'Lisbon' AS city, realSum, room_type, 0 AS weekday
+    FROM airbnb.lisbon_weekends
+    UNION ALL
+    SELECT 'Athens' AS city, realSum, room_type, 1 AS weekday
+    FROM airbnb.athens_weekdays
+    UNION ALL
+    SELECT 'Athens' AS city, realSum, room_type, 0 AS weekday
+    FROM airbnb.athens_weekends
+    UNION ALL
+    SELECT 'Barcelona' AS city, realSum, room_type, 1 AS weekday
+    FROM airbnb.barcelona_weekdays
+    UNION ALL
+    SELECT 'Barcelona' AS city, realSum, room_type, 0 AS weekday
+    FROM airbnb.barcelona_weekends
+    UNION ALL
+    SELECT 'London' AS city, realSum, room_type, 1 AS weekday
+    FROM airbnb.london_weekdays
+    UNION ALL
+    SELECT 'London' AS city, realSum, room_type, 0 AS weekday
+    FROM airbnb.london_weekends
+    UNION ALL
+    SELECT 'Paris' AS city, realSum, room_type, 1 AS weekday
+    FROM airbnb.paris_weekdays
+    UNION ALL
+    SELECT 'Paris' AS city, realSum, room_type ,0 AS weekday
+    FROM airbnb.paris_weekends
+    UNION ALL
+    SELECT 'Rome' AS city, realSum, room_type, 1 AS weekday
+    FROM airbnb.rome_weekdays
+    UNION ALL
+    SELECT 'Rome' AS city, realSum, room_type ,0 AS weekday
+    FROM airbnb.rome_weekends
+    UNION ALL
+    SELECT 'Vienna' AS city, realSum, room_type ,1 AS weekday
+    FROM airbnb.vienna_weekdays
+    UNION ALL
+    SELECT 'Vienna' AS city, realSum, room_type ,0 AS weekday
+    FROM airbnb.vienna_weekends
+) AS european_cities
+GROUP BY city, day_type, room_type;
+
+2. Script for Average Price for the Airbnb during the week and during the weekend
+
+SELECT city, ROUND(AVG(realSum), 2) AS average_room_price,
+       CASE WHEN weekday = 1 THEN 'Weekday' ELSE 'Weekend' END AS day_type
+FROM (
+    SELECT 'Amsterdam' AS city, realSum, 1 AS weekday
+    FROM airbnb.amsterdam_weekdays
+    UNION ALL
+    SELECT 'Amsterdam' AS city, realSum, 0 AS weekday
+    FROM airbnb.amsterdam_weekends
+    UNION ALL
+    SELECT 'Berlin' AS city, realSum, 1 AS weekday
+    FROM airbnb.berlin_weekdays
+    UNION ALL
+    SELECT 'Berlin' AS city, realSum, 0 AS weekday
+    FROM airbnb.berlin_weekends
+    UNION ALL
+    SELECT 'Lisbon' AS city, realSum, 1 AS weekday
+    FROM airbnb.lisbon_weekdays
+    UNION ALL
+    SELECT 'Lisbon' AS city, realSum, 0 AS weekday
+    FROM airbnb.lisbon_weekends
+    UNION ALL
+    SELECT 'Athens' AS city, realSum, 1 AS weekday
+    FROM airbnb.athens_weekdays
+    UNION ALL
+    SELECT 'Athens' AS city, realSum, 0 AS weekday
+    FROM airbnb.athens_weekends
+    UNION ALL
+    SELECT 'Barcelona' AS city, realSum, 1 AS weekday
+    FROM airbnb.barcelona_weekdays
+    UNION ALL
+    SELECT 'Barcelona' AS city, realSum, 0 AS weekday
+    FROM airbnb.barcelona_weekends
+    UNION ALL
+    SELECT 'London' AS city, realSum, 1 AS weekday
+    FROM airbnb.london_weekdays
+    UNION ALL
+    SELECT 'London' AS city, realSum, 0 AS weekday
+    FROM airbnb.london_weekends
+    UNION ALL
+    SELECT 'Paris' AS city, realSum, 1 AS weekday
+    FROM airbnb.paris_weekdays
+    UNION ALL
+    SELECT 'Paris' AS city, realSum, 0 AS weekday
+    FROM airbnb.paris_weekends
+    UNION ALL
+    SELECT 'Rome' AS city, realSum, 1 AS weekday
+    FROM airbnb.rome_weekdays
+    UNION ALL
+    SELECT 'Rome' AS city, realSum, 0 AS weekday
+    FROM airbnb.rome_weekends
+    UNION ALL
+    SELECT 'Vienna' AS city, realSum, 1 AS weekday
+    FROM airbnb.vienna_weekdays
+    UNION ALL
+    SELECT 'Vienna' AS city, realSum, 0 AS weekday
+    FROM airbnb.vienna_weekends
+) AS european_cities
+GROUP BY city, day_type;
+
+3. Script for the number of listings for each city
+
+SELECT 
+    city, COUNT(*) AS number_of_listings
+FROM
+    (SELECT 
+        'Amsterdam' AS city, host_is_superhost
+    FROM
+        airbnb.amsterdam_weekdays UNION ALL SELECT 
+        'Amsterdam' AS city, host_is_superhost
+    FROM
+        airbnb.amsterdam_weekends UNION ALL SELECT 
+        'Berlin' AS city, host_is_superhost
+    FROM
+        airbnb.berlin_weekdays UNION ALL SELECT 
+        'Berlin' AS city, host_is_superhost
+    FROM
+        airbnb.berlin_weekends UNION ALL SELECT 
+        'Lisbon' AS city, host_is_superhost
+    FROM
+        airbnb.lisbon_weekdays UNION ALL SELECT 
+        'Lisbon' AS city, host_is_superhost
+    FROM
+        airbnb.lisbon_weekends UNION ALL SELECT 
+        'Athens' AS city, host_is_superhost
+    FROM
+        airbnb.athens_weekdays UNION ALL SELECT 
+        'Athens' AS city, host_is_superhost
+    FROM
+        airbnb.athens_weekends UNION ALL SELECT 
+        'Barcelona' AS city, host_is_superhost
+    FROM
+        airbnb.barcelona_weekdays UNION ALL SELECT 
+        'Barcelona' AS city, host_is_superhost
+    FROM
+        airbnb.barcelona_weekends UNION ALL SELECT 
+        'London' AS city, host_is_superhost
+    FROM
+        airbnb.london_weekdays UNION ALL SELECT 
+        'London' AS city, host_is_superhost
+    FROM
+        airbnb.london_weekends UNION ALL SELECT 
+        'Paris' AS city, host_is_superhost
+    FROM
+        airbnb.paris_weekdays UNION ALL SELECT 
+        'Paris' AS city, host_is_superhost
+    FROM
+        airbnb.paris_weekends UNION ALL SELECT 
+        'Rome' AS city, host_is_superhost
+    FROM
+        airbnb.rome_weekdays UNION ALL SELECT 
+        'Rome' AS city, host_is_superhost
+    FROM
+        airbnb.rome_weekends UNION ALL SELECT 
+        'Vienna' AS city, host_is_superhost
+    FROM
+        airbnb.vienna_weekdays UNION ALL SELECT 
+        'Vienna' AS city, host_is_superhost
+    FROM
+        airbnb.vienna_weekends) AS european_cities
+GROUP BY city;
+
+4. Script for calculating the correlation between the distance from the metro and the average price per night in the city.
+5. Script for calculating the correlation between the distance from the city centre and the average price per night in the city.
+
+  SELECT city,
+ ROUND(AVG(realSum),2) AS average_price,
+ROUND(AVG(CASE WHEN dist <= 1.0 THEN realSum END),2) AS average_price_city_centre, 
+ROUND(AVG(CASE WHEN dist > 1 AND dist <= 5.0 THEN realSum END),2) AS average_price_city_nearby,
+ROUND(AVG(CASE WHEN dist > 5.0 AND dist<= 7.0 THEN realSum END),2) AS average_price_city_further,
+ROUND(AVG(CASE WHEN dist > 7.0 THEN realSum END),2) AS average_price_city_far,
+ROUND(AVG(CASE WHEN metro_dist <= 0.5 THEN realSum END),2) AS average_price_near_metro,
+ROUND(AVG(CASE WHEN metro_dist > 0.5 AND metro_dist <= 1.0 THEN realSum END),2) AS average_price_metro_nearby,
+ROUND(AVG(CASE WHEN metro_dist > 1.0 AND metro_dist <= 1.9 THEN realSum END),2) AS average_price_metro_further,
+ROUND(AVG(CASE WHEN metro_dist > 1.9 THEN realSum END),2) AS average_price_metro_far
+FROM (SELECT 'Amsterdam' AS city, realSum, dist, metro_dist
+FROM airbnb.amsterdam_weekdays
+UNION ALL
+SELECT 'Amsterdam' AS city, realSum, dist, metro_dist
+FROM airbnb.amsterdam_weekends
+UNION ALL
+SELECT 'Berlin' AS city, realSum, dist, metro_dist
+FROM airbnb.berlin_weekdays
+UNION ALL
+SELECT 'Berlin' AS city, realSum, dist, metro_dist
+FROM airbnb.berlin_weekends
+UNION ALL
+SELECT 'Lisbon' AS city, realSum, dist, metro_dist
+FROM airbnb.lisbon_weekdays
+UNION ALL
+SELECT 'Lisbon' AS city, realSum, dist, metro_dist
+FROM airbnb.lisbon_weekends
+UNION ALL
+SELECT 'Athens' AS city, realSum, dist, metro_dist
+FROM airbnb.athens_weekdays
+UNION ALL
+SELECT 'Athens' AS city, realSum, dist, metro_dist
+FROM airbnb.athens_weekends
+UNION ALL
+SELECT 'Barcelona' AS city, realSum, dist, metro_dist
+FROM airbnb.barcelona_weekdays
+UNION ALL
+SELECT 'Barcelona' AS city, realSum, dist, metro_dist
+FROM airbnb.barcelona_weekends
+UNION ALL
+SELECT 'London' AS city, realSum, dist, metro_dist
+FROM airbnb.london_weekdays
+UNION ALL
+SELECT 'London' AS city, realSum, dist, metro_dist
+FROM airbnb.london_weekends
+UNION ALL
+SELECT 'Paris' AS city, realSum, dist, metro_dist
+FROM airbnb.paris_weekdays
+UNION ALL
+SELECT 'Paris' AS city, realSum, dist, metro_dist
+FROM airbnb.paris_weekends
+UNION ALL
+SELECT 'Rome' AS city, realSum, dist, metro_dist
+FROM airbnb.rome_weekdays
+UNION ALL
+SELECT 'Rome' AS city, realSum, dist, metro_dist
+FROM airbnb.rome_weekends
+UNION ALL
+SELECT 'Vienna' AS city, realSum, dist, metro_dist
+FROM airbnb.vienna_weekdays
+UNION ALL
+SELECT 'Vienna' AS city, realSum, dist, metro_dist
+FROM airbnb.vienna_weekends) AS european_cities
+WHERE city <> 'Athens' OR (city = 'Athens' AND COALESCE(dist, 0) IS NOT NULL)
+GROUP BY city;
+
+6. Script for calculating the cleanliness rating across different room types and cities.
+
+  SELECT city, room_type, ROUND(AVG(cleanliness_rating), 2) AS average_cleanliness, host_is_superhost
+FROM (
+    SELECT 'Amsterdam' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.amsterdam_weekdays
+    UNION ALL
+    SELECT 'Amsterdam' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.amsterdam_weekends
+    UNION ALL
+    SELECT 'Berlin' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.berlin_weekdays
+    UNION ALL
+    SELECT 'Berlin' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.berlin_weekends
+    UNION ALL
+    SELECT 'Lisbon' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.lisbon_weekdays
+    UNION ALL
+    SELECT 'Lisbon' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.lisbon_weekends
+    UNION ALL
+    SELECT 'Athens' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.athens_weekdays
+    UNION ALL
+    SELECT 'Athens' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.athens_weekends
+    UNION ALL
+    SELECT 'Barcelona' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.barcelona_weekdays
+    UNION ALL
+    SELECT 'Barcelona' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.barcelona_weekends
+    UNION ALL
+    SELECT 'London' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.london_weekdays
+    UNION ALL
+    SELECT 'London' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.london_weekends
+    UNION ALL
+    SELECT 'Paris' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.paris_weekdays
+    UNION ALL
+    SELECT 'Paris' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.paris_weekends
+    UNION ALL
+    SELECT 'Rome' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.rome_weekdays
+    UNION ALL
+    SELECT 'Rome' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.rome_weekends
+    UNION ALL
+    SELECT 'Vienna' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.vienna_weekdays
+    UNION ALL
+    SELECT 'Vienna' AS city, room_type, cleanliness_rating, host_is_superhost
+    FROM airbnb.vienna_weekends
+) AS european_cities
+GROUP BY city, room_type, host_is_superhost;
+
+7. Script for calculating the percentage of superhosts.
+
+  SELECT 
+    city, ROUND((COUNT(CASE WHEN host_is_superhost = 'True' THEN 1 END) / COUNT(*)) *100,2) AS superhost_percentage
+FROM
+    (SELECT 
+        'Amsterdam' AS city, host_is_superhost
+    FROM
+        airbnb.amsterdam_weekdays UNION ALL SELECT 
+        'Amsterdam' AS city, host_is_superhost
+    FROM
+        airbnb.amsterdam_weekends UNION ALL SELECT 
+        'Berlin' AS city, host_is_superhost
+    FROM
+        airbnb.berlin_weekdays UNION ALL SELECT 
+        'Berlin' AS city, host_is_superhost
+    FROM
+        airbnb.berlin_weekends UNION ALL SELECT 
+        'Lisbon' AS city, host_is_superhost
+    FROM
+        airbnb.lisbon_weekdays UNION ALL SELECT 
+        'Lisbon' AS city, host_is_superhost
+    FROM
+        airbnb.lisbon_weekends UNION ALL SELECT 
+        'Athens' AS city, host_is_superhost
+    FROM
+        airbnb.athens_weekdays UNION ALL SELECT 
+        'Athens' AS city, host_is_superhost
+    FROM
+        airbnb.athens_weekends UNION ALL SELECT 
+        'Barcelona' AS city, host_is_superhost
+    FROM
+        airbnb.barcelona_weekdays UNION ALL SELECT 
+        'Barcelona' AS city, host_is_superhost
+    FROM
+        airbnb.barcelona_weekends UNION ALL SELECT 
+        'London' AS city, host_is_superhost
+    FROM
+        airbnb.london_weekdays UNION ALL SELECT 
+        'London' AS city, host_is_superhost
+    FROM
+        airbnb.london_weekends UNION ALL SELECT 
+        'Paris' AS city, host_is_superhost
+    FROM
+        airbnb.paris_weekdays UNION ALL SELECT 
+        'Paris' AS city, host_is_superhost
+    FROM
+        airbnb.paris_weekends UNION ALL SELECT 
+        'Rome' AS city, host_is_superhost
+    FROM
+        airbnb.rome_weekdays UNION ALL SELECT 
+        'Rome' AS city, host_is_superhost
+    FROM
+        airbnb.rome_weekends UNION ALL SELECT 
+        'Vienna' AS city, host_is_superhost
+    FROM
+        airbnb.vienna_weekdays UNION ALL SELECT 
+        'Vienna' AS city, host_is_superhost
+    FROM
+        airbnb.vienna_weekends) AS european_cities
+GROUP BY city;
